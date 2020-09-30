@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="cont">
+      <div @click="toindex">去主页面</div>
       <i>myblog</i>
       <div style="margin-top: 20px;">
         <el-input v-model="name" placeholder="请输入账号"></el-input>
@@ -9,9 +10,8 @@
         <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
       </div>
       <div style="margin-top:45px;">
-         <el-button type="primary" @click="login" plain>立即登录</el-button>
+        <el-button type="primary" @click="login" plain>立即登录</el-button>
         <el-button type="primary" @click="register" plain>立即注册</el-button>
-       
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
 
 <script>
 import axios from "axios";
-import Qs from 'qs'
+import Qs from "qs";
 export default {
   data() {
     return {
@@ -28,31 +28,39 @@ export default {
     };
   },
   methods: {
-    login() {
-      var that=this
-       var data = {
-        name: this.name,
-        password: this.password
-      };
-      axios.post("http://localhost/?method=login",Qs.stringify(data),{headers:{
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }},).then(res => {
-        console.log(res);
-         that.$message(res.data.msg);
-      });
+    toindex() {
+      this.$router.push("/");
     },
-    register() {
+    login() {
+      var that = this;
       var data = {
         name: this.name,
         password: this.password
       };
-      axios.post("http://localhost/?method=register",Qs.stringify(data),{headers:{
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }},).then(res => {
+      // axios.defaults.withCredentials = true; // 允许携带cookie
+      // axios.defaults.headers.common['token'] ='123456789';
+      this.$axios.post("?method=login", Qs.stringify(data)).then(res => {
         console.log(res);
+        that.$message(res.msg);
+        if (res.data.code == 1) {
+          this.$cookie.setCookie("id", res.data.data.id, 1);
+          this.$router.push("/");
+        }
+      });
+    },
+    register() {
+      var that = this;
+      var data = {
+        name: this.name,
+        password: this.password
+      };
+      this.$axios.post("?method=register", Qs.stringify(data)).then(res => {
+        console.log(res);
+        that.$message(res.msg);
       });
     }
-  }
+  },
+  created() {}
 };
 </script>
 

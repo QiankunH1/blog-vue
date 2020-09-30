@@ -5,10 +5,14 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import axios from 'axios'
-  Vue.prototype.$http = axios
+import xhr from './js/axios'
+import cookie from './js/cookie'
+
+
 Vue.use(ElementUI);
 Vue.config.productionTip = false
+Vue.prototype.$cookie = cookie
+Vue.prototype.$axios = xhr
 
 /* eslint-disable no-new */
 new Vue({
