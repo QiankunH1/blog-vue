@@ -17,6 +17,9 @@ const js = {
           return unescape(arr[2]);
         else
           return null;
-      }
+      },
+     clearCookie(name) {     
+      document.cookie = name+"=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
 }
 export default js

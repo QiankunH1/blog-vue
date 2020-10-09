@@ -1,20 +1,19 @@
 <template>
     <div>
-        我是主页面
-        <div @click="tologin">去登录页</div>
-        <div @click="towe">去欢迎页</div>
+        <Header></Header>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+// import Header from '@/components/Header'
+import Header from '../components/Header'
     export default {
+        components:{
+            Header
+        },
         methods:{
-            tologin(){
-                this.$router.push('/login')
-            },
-            towe(){
-                this.$router.push('/we')
-            }
+           
         },
         created(){
 

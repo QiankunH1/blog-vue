@@ -7,6 +7,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import xhr from './js/axios'
 import cookie from './js/cookie'
+import 'normalize.css/normalize.css'
+import store from '@/vuex/store'
 
 
 Vue.use(ElementUI);
@@ -18,6 +20,7 @@ Vue.prototype.$axios = xhr
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

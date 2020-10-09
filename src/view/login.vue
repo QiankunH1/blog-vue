@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="cont">
-      <div @click="toindex">去主页面</div>
       <i>myblog</i>
       <div style="margin-top: 20px;">
         <el-input v-model="name" placeholder="请输入账号"></el-input>
@@ -28,9 +27,7 @@ export default {
     };
   },
   methods: {
-    toindex() {
-      this.$router.push("/");
-    },
+    
     login() {
       var that = this;
       var data = {
@@ -42,9 +39,11 @@ export default {
       this.$axios.post("?method=login", Qs.stringify(data)).then(res => {
         console.log(res);
         that.$message(res.msg);
-        if (res.data.code == 1) {
-          this.$cookie.setCookie("id", res.data.data.id, 1);
-          this.$router.push("/");
+        if (res.code == 1) {
+          // this.$cookie.setCookie("id", res.data.id, 4);
+         
+          this.$store.commit('CHANGEUSERINFO',res.data)
+           this.$router.push("/");
         }
       });
     },
