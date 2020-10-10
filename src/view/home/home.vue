@@ -94,6 +94,11 @@ export default {
           width: 100%;
           height: 120px;
           border-radius: 6px;
+          transition: all 0.4s linear;
+          cursor: pointer;
+        }
+        img:hover{
+            transform: scale(1.1);
         }
         .title {
           line-height: 40px;

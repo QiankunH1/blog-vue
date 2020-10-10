@@ -34,8 +34,14 @@ export default {
         name: this.name,
         password: this.password
       };
+      var data1={
+        "file":data
+      }
+      var formdata=new FormData()
+      formdata.append('file',data)
       // axios.defaults.withCredentials = true; // 允许携带cookie
       // axios.defaults.headers.common['token'] ='123456789';
+   
       this.$axios.post("?method=login", Qs.stringify(data)).then(res => {
         console.log(res);
         that.$message(res.msg);

@@ -20,7 +20,7 @@
         <span @click="outlogin">退出</span>
     </div>
     <div class="info" v-else>
-        <span @click.native="tologin">去登陆</span>
+        <span @click="tologin">去登陆</span>
     </div>
   </div>
 </template>

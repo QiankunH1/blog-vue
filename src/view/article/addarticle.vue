@@ -1,18 +1,15 @@
 <template>
+
   <div class="home">
     <el-form label-width="80px" style="width:400px;margin-top:50px;">
       <el-form-item label="博文标题">
         <el-input v-model="title"></el-input>
       </el-form-item>
       <el-form-item label="博文图片">
-        <el-upload
-        class="avatar-uploader"
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-       >
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+        <div class="input_wrap">
+          <input type="file" @change="handleChange" />
+          <img :src="img" />
+        </div>
       </el-form-item>
     </el-form>
     <h3>wangEditor with vue</h3>
@@ -23,6 +20,8 @@
 
 <script>
 // 引入 wangEditor
+import Qs from "qs";
+import axios from "axios";
 import wangEditor from "wangeditor";
 export default {
   data() {
@@ -30,8 +29,7 @@ export default {
       editor: null,
       editorData: "",
       title: "",
-      img:'',
-      imageUrl: ''
+      img: ""
     };
   },
   mounted() {
@@ -50,9 +48,19 @@ export default {
       let data = this.editor.txt.html();
       alert(data);
     },
-     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
+    handleChange(e) {
+      let file = event.target.files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+      var config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+      axios.post("http://localhost:80/?method=login", formData, config).then(res => {
+
+        });
+    }
   }
 };
 </script>
@@ -62,38 +70,51 @@ export default {
   width: 1200px;
   margin: auto;
   position: relative;
-//   .btn {
-//     position: absolute;
-//     right: 0;
-//     top: 0;
-//     padding: 5px 10px;
-//     cursor: pointer;
-//   }
+
   h3 {
     margin: 30px 0 15px;
   }
 }
- .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+.input_wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  line-height: 180px;
+  text-align: center;
+  color: #888;
+  cursor: pointer;
+  overflow: hidden;
+  font-size: 0.35em;
+  border-radius: 0.2em;
+  background: #fafafa;
+  display: block;
+  border: 1px dashed #d9d9d9;
+  img {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
+  input {
     display: block;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    cursor: pointer;
   }
+}
+.input_wrap::before {
+  content: "+";
+  font-size: 40px;
+  font-weight: lighter;
+}
+.input_wrap:hover {
+  border: 1px dashed #409eff;
+}
 </style>
